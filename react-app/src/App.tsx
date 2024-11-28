@@ -1,28 +1,17 @@
+import { useState } from "react";
 import Alert from "./components/Alert";
 import Buttons from "./components/Buttons";
 
-const hideUnhideAlert = () => {
-  var alertElement = document.getElementById("alert");
-  if(alertElement) alertElement.classList.toggle("d-none");
-
-  console.log("Function Triggerd!");
-};
-
-const handleOnButtonClick = () => {
-  hideUnhideAlert();
-};
-
-const handleOnAlertCLick = () => {
-  hideUnhideAlert();
-};
-
 function App() {
-  return (
-    <div>
-      <Alert onAlertClick={handleOnAlertCLick}>Alert</Alert>
+  const [createAlert, setCreateAlert] = useState(0);
 
-      <Buttons onBtnClick={handleOnButtonClick}>My Button</Buttons>
-    </div>
+  console.log(createAlert);
+
+  return (
+    <>
+      {createAlert >= 1 && <Alert onAlertClick={() => {setCreateAlert(0)}}> Alert </Alert>}
+      <Buttons onButtonClick={()=> {setCreateAlert(1)}}>My Button</Buttons>
+    </>
   );
 }
 

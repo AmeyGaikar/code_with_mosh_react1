@@ -1,14 +1,14 @@
 interface ButtonProp {
-  children: string
-  onBtnClick: () => void
+  children: string;
+  onButtonClick: () => void;
 }
 
-const Buttons = ({children, onBtnClick}: ButtonProp) => {
+const Buttons = ({ children, onButtonClick }: ButtonProp) => {
   return (
-    <div className="btn btn-primary" onClick={onBtnClick}>
-      {children}
+    <div>
+      <button className="btn btn-primary" onClick={onButtonClick}> {children}</button>
     </div>
-  )
-}
+  );
+};
 
-export default Buttons
+export default Buttons;
