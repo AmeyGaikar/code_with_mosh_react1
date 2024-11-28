@@ -1,21 +1,14 @@
-import { MouseEvent } from "react";
-
-interface BtnProp {
-    children: string;
-    onButtonClick: (event: MouseEvent) => void;
-    color?: 'primary' | 'secondary' | 'danger'
+interface ButtonProp {
+  children: string
+  onBtnClick: () => void
 }
 
-const Buttons = ({children, onButtonClick, color="primary"}: BtnProp) => {
+const Buttons = ({children, onBtnClick}: ButtonProp) => {
   return (
-    <div>
-      <button type="button" className={'btn btn-' + color}
-      onClick={onButtonClick}
-      >
-        {children}
-      </button>
+    <div className="btn btn-primary" onClick={onBtnClick}>
+      {children}
     </div>
-  );
-};
+  )
+}
 
-export default Buttons;
+export default Buttons

@@ -1,18 +1,27 @@
-import { MouseEvent } from "react";
 import Alert from "./components/Alert";
 import Buttons from "./components/Buttons";
-import ListGroup from "./components/ListGroup";
 
-const handleOnButtonClick = (event: MouseEvent) => {
-console.log(event);
-}
+const hideUnhideAlert = () => {
+  var alertElement = document.getElementById("alert");
+  if(alertElement) alertElement.classList.toggle("d-none");
+
+  console.log("Function Triggerd!");
+};
+
+const handleOnButtonClick = () => {
+  hideUnhideAlert();
+};
+
+const handleOnAlertCLick = () => {
+  hideUnhideAlert();
+};
 
 function App() {
   return (
     <div>
-      <Buttons onButtonClick={handleOnButtonClick} color="primary">
-        Primary Button
-      </Buttons>
+      <Alert onAlertClick={handleOnAlertCLick}>Alert</Alert>
+
+      <Buttons onBtnClick={handleOnButtonClick}>My Button</Buttons>
     </div>
   );
 }
