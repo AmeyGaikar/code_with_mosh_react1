@@ -1,18 +1,20 @@
 import { useState } from "react";
+import styles from './ListGroup.module.css'
 
 interface ListGroupProps {
   items: string[];
   heading: string;
-  onSelectItem: (item: string) => void;
 }
 
-function ListGroup({items, heading, onSelectItem}: ListGroupProps) {
+
+
+function ListGroup({items, heading}: ListGroupProps) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   return (
     <>
       <h1> {heading} </h1>
       {items.length === 0 && <p> No items to render </p>}
-      <ul className="list-group">
+      <ul className={[styles.ListGroup, styles.container].join(" ")}>
         {items.map((item, index) => (
           <li
             key={item}
@@ -23,7 +25,6 @@ function ListGroup({items, heading, onSelectItem}: ListGroupProps) {
             }
             onClick={() => {
               setSelectedIndex(index);
-              onSelectItem(item);
             }}
           >
             {item}
