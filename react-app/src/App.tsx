@@ -1,17 +1,18 @@
 import { useState } from "react";
-import Alert from "./components/Alert";
-import Buttons from "./components/Buttons";
-import ListGroup from "./components/ListGroup";
-import './App.css';
-
-const items = ['Chicago', 'Illinois', 'New York'];
 
 function App() {
+  const [drink, setDrink] = useState({
+    title: "Americano",
+    price: 5,
+  });
+  const handleClick = () => {
+    setDrink({ ...drink, price: 6 });
+  };
   return (
-    <>
-    <ListGroup items={items} heading="Cities"/>
-    </>
+    <div>
+      {drink.price}
+      <button onClick={handleClick}> Click me! </button>
+    </div>
   );
 }
-
 export default App;
