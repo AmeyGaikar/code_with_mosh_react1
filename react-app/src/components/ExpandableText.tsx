@@ -12,7 +12,7 @@ const ExpandableText = ({children, maxChar = 100}: TextProp) => {
     else setBtn('More');
   }
 
-  if(children.length <= maxChar || btn === 'Less') return <p>{children} <button onClick={buttonHandler}>{btn}</button>  </p>
+  if(children.length <= maxChar || btn === 'Less') return <p> {children} <button onClick={buttonHandler}>{btn}</button>  </p>
     const text = children.substring(0, maxChar);
   return <p>{text}... <button onClick={buttonHandler}>{btn}</button></p>
 
