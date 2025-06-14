@@ -12,7 +12,7 @@ type FormData =  z.infer<typeof schema>;
 
 const Form = () => {
   const {register, handleSubmit, formState: {errors, isValid}} = useForm<FormData>({resolver: zodResolver(schema)});
-
+  
   const onSubmitForm = (data: FieldValues) => {
     console.log(data);
   }

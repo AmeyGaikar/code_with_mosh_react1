@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ExpenseList from "./Expense-tracker/ExpenseList";
 import ExpenseFilter from "./Expense-tracker/ExpenseFilter";
+import ExpenseForm from "./Expense-tracker/ExpenseForm";
+import { es, id } from "zod/dist/types/v4/locales";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -35,6 +37,9 @@ function App() {
 
   return (
     <div>
+      <ExpenseForm onSubmit={data => setExpenses([...expenses, {id: expenses.length +1,  ...data}])}/>
+
+      Filter
       <ExpenseFilter onSelect={(category) => setSelectedCategory(category)}/>
       <ExpenseList
         expenses={visibleExpenses}
