@@ -1,11 +1,7 @@
-import apiClient, {CanceledError} from "./services/api-client";
+import apiClient, { CanceledError } from "./services/api-client";
 import React, { useEffect } from "react";
 import { useState } from "react";
-
-interface User {
-  id: number;
-  name: string;
-}
+import UserService, { User } from "./services/user-service";
 
 const App = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -13,11 +9,9 @@ const App = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const controller = new AbortController();
-    apiClient
-      .get<User[]>("/users", {
-        signal: controller.signal,
-      })
+    setLoading(true);
+    const { request, cancel } = UserService.getAllUsers();
+    request
       .then((res) => {
         setUsers(res.data);
         setLoading(false);
@@ -28,29 +22,28 @@ const App = () => {
         setLoading(false);
       });
 
-    return () => controller.abort();
+    return cancel;
   }, []);
 
   const deleteUser = (user: User) => {
     const orginalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
-    apiClient
-      .delete("/users/" + user.id)
-      .catch((err) => {
-        setError(err.message);
-        setUsers(orginalUsers);
-      });
+    const request = UserService.deleteUsers(user.id);
+    request.catch((err) => {
+      setError(err.message);
+      setUsers(orginalUsers);
+    });
   };
 
   const addUser = () => {
     const newUser = { id: 0, name: "Amey" };
     const originalUser = [...users];
-    setUsers([newUser, ...users]);
+    setUsers([...users, newUser]);
 
-    apiClient
-      .post("/users/", newUser)
-      .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
+    const request = UserService.addUser(newUser);
+    request
+      .then(({ data: savedUser }) => setUsers([...users, savedUser]))
       .catch((err) => {
         setError(err.message);
         setUsers(originalUser);
@@ -59,15 +52,15 @@ const App = () => {
 
   const updateUser = (user: User) => {
     const originalUsers = [...users];
-    const updtUser = {...user, name: user.name + '!'}
-    setUsers(users.map(u => u.id === user.id ? updtUser : u));
+    const updtUser = { ...user, name: user.name + "!" };
+    setUsers(users.map((u) => (u.id === user.id ? updtUser : u)));
 
-    apiClient.patch("/users/" + user.id, updtUser)
-    .catch( err => {
+    const request = UserService.updateuser(user.id, updtUser);
+    request.catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
-    } )
-  }
+    });
+  };
 
   return (
     <>
@@ -84,7 +77,12 @@ const App = () => {
           >
             {user.name}
             <div>
-              <button className="btn btn-outline-secondary mx-2" onClick={() => updateUser(user)}>Update</button>
+              <button
+                className="btn btn-outline-secondary mx-2"
+                onClick={() => updateUser(user)}
+              >
+                Update
+              </button>
               <button
                 className="btn btn-danger"
                 onClick={() => deleteUser(user)}
@@ -100,3 +98,6 @@ const App = () => {
 };
 
 export default App;
+
+
+
